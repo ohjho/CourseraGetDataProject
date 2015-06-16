@@ -38,33 +38,29 @@ x_complete<-cbind(x_slim,y_joined,subject_joined) %>%
 # already done in step #2 above on line 23
 message("Finished aggregating data.")
 
-#5. From the data set in sept 4, creates a second, independent tidy data set
+#5. From the data set in step 4, creates a second, independent tidy data set
 # with the average of each variable for each activity and each subject
-x_tidy <- gather(x_complete,variable_stat,value,-c(activity,subject))
-          #separate(col=variable_stat,into=c("variable","stat")) %>%
-          # mutate a new column for the stat type: mean/ sd
-          #mutate(stat= str_match(variable_stat,"\\-(.+)\\-")[1,2]) %>%
-          #x_tidy<- mutate(x_tidy1,
-          #                stat= unlist(strsplit(as.character(variable_stat),"-"))[2])
+x_tidy <- gather(x_complete,features_stat,value,-c(activity,subject))
 # remove duplicates
-x_tidy<-sqldf("select * from x_tidy group by subject, activity, variable_stat")
+x_tidy<-sqldf("select * from x_tidy group by subject, activity, features_stat")
+# create a stat column that state whether the value is a  mean or sd
 x_tidy<- mutate( x_tidy,
-                 stat=unlist(lapply(strsplit(as.character(variable_stat),"\\-")
+                 stat=unlist(lapply(strsplit(as.character(features_stat),"\\-")
                               ,"[",2))
           )
- #print(unique(x_tidy$stat))
 x_tidy<- mutate(x_tidy,
-                variable=sub(variable_stat,pattern="\\-.+\\-", 
+                features=sub(features_stat,pattern="\\-.+\\-", 
                               replacement="-")) %>%
-          select(-variable_stat)
+          select(-features_stat)
+# transpose the stat row so that we'll have a mean and std column
 x_tidy<-  spread(x_tidy, stat,value)
 names(x_tidy)[names(x_tidy)=="mean()"]<-"mean"
 names(x_tidy)[names(x_tidy)=="std()"]<-"std"
-          #rename(c("mean()"="mean","std()"="std"))
- #print(unique(x_tidy$variable))
 message("Tidy dataset 'x_tidy' created.")
 
+# create the summary data set
 x_summary<-group_by(x_tidy,
-                    variable,activity,subject) %>%
+                    features,activity,subject) %>%
           summarize(avg_mean=mean(mean),avg_std=mean(std))
 message("Summary data set 'x_summary' created.")
+View(x_summary)
