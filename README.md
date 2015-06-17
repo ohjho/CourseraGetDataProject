@@ -3,21 +3,21 @@ this is a description of what the run_analysis.R script does to the data in the 
 
 ## R packpages reqired
 These are loaded at the beginning of the script. User is expected to have these packages installed already. 
-1. dplyr
-2. tidyr
-3. stringr
-4. sqldf
+ * dplyr
+ * tidyr
+ * stringr
+ * sqldf
 
 ## Data Files required
 A data frame object is created for each of the following file in the UCI_HAR_Dataset directory
-1. test/X_test.txt
-2. test/Y_test.txt
-3. test/subject_test.txt
-4. train/X_train.txt
-5. train/Y_train.txt
-6. train/subject_train.txt
-7. features.txt
-8. activity_labels.txt
+ 1. test/X_test.txt
+ 2. test/Y_test.txt
+ 3. test/subject_test.txt
+ 4. train/X_train.txt
+ 5. train/Y_train.txt
+ 6. train/subject_train.txt
+ 7. features.txt
+ 8. activity_labels.txt
 
 ## 1. Merging the training and test set together
 With respect to the above list, the file 1, 4 are joined together to form the **x_joined** data frame. The file 2, 5 are joined together to form the **y_joined** data frame. And the file 3, 6 above are joined together to form the **subject_joined** data frame.
