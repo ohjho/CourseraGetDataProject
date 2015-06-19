@@ -2,6 +2,7 @@ Data Dictionary- x_summary
 ==========================
 features
 --------
+record type
  1. fBodyAcc-X
  2. fBodyAcc-Y
  3. fBodyAcc-Z
@@ -29,7 +30,7 @@ features
 
 activity
 --------
-activity measured
+activity code
  1. Laying
  2. Sitting
  3. Standing
@@ -39,7 +40,8 @@ activity measured
 
 subject
 -------
-subject code. 1 to 30: identity of subject measured
+subject code
+1 to 30: identity of subject measured
 
 avg_mean
 --------
